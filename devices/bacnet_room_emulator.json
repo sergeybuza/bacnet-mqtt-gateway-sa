@@ -1,0 +1,22 @@
+{
+    "devName": "b1f1r1TTTTTT",
+    "device": {
+        "deviceId": 3358910,
+        "deviceName": "b1f1r1TTTTTTTTTTTTT",
+        "address": "192.168.88.195"
+    },
+    "polling": {
+        "schedule": "*/10 * * * * *"
+    },
+    "objects": [{
+        "objectId": {
+            "type": 0,
+            "instance": 1
+        }
+    }, {
+        "objectId": {
+            "type": 0,
+            "instance": 2
+        }
+    }]
+}

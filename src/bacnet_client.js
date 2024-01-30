@@ -15,7 +15,7 @@ class BacnetClient extends EventEmitter {
 
         this.bacnetConfig = new BacnetConfig();
         this.bacnetConfig.on('configLoaded', (config) => {
-            this.startPolling(config.device, config.objects, config.polling.schedule);
+            this.startPolling(config.device, config.objects, config.polling.schedule,config.devName);
         })
         this.bacnetConfig.load();
     }
@@ -126,8 +126,9 @@ class BacnetClient extends EventEmitter {
         });
     }
 
-    startPolling(device, objects, scheduleExpression) {
-        logger.log('info', `Schedule polling for device ${device.address} with expression ${scheduleExpression}`);
+    startPolling(device, objects, scheduleExpression,devName) {
+	const deviceName = device.deviceName;
+        logger.log('info', `Schedule polling for device ${device.address} ${devName} with expression ${scheduleExpression}`);
         scheduleJob(scheduleExpression, () => {
             logger.log('info', 'Fetching device object values');
             const promises = [];
@@ -146,6 +147,7 @@ class BacnetClient extends EventEmitter {
                     values[objectId] = {};
 	                  values[objectId].value = presentValue;
 	                  values[objectId].name = objectName;
+			values[objectId].devName = devName;
                 });
                 this.emit('values', device, values);
             }).catch(function (error) {

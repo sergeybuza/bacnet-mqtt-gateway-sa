@@ -2,7 +2,7 @@ const mqtt = require('mqtt');
 const config = require('config');
 const fs = require('fs');
 const EventEmitter = require('events');
-const {logger} = require('./common');
+const { logger } = require('./common');
 
 // load configs
 const gatewayId = config.get('mqtt.gatewayId');
@@ -30,32 +30,37 @@ class MqttClient extends EventEmitter {
             this._onConnect();
         });
         this.client.on('error', (error) => {
-            logger.log('error', 'Could not connect: ' + err.message);
+            logger.log('error', 'Could not connect: ' + error.message);
         });
     }
 
     _onConnect() {
         logger.log('info', 'Client connected');
 
-        this.client.on('message', (msg) => this._onMessage(msg));
+        this.client.on('message', (topic, message) => this._onMessage(topic, message));
 
-        this.client.on('error', function (err) {
-            logger.log('error', err);
+        this.client.on('error', function (error) {
+            logger.log('error', error);
         });
     };
 
-    _onMessage(msg) {
-        logger.log('info', `Received message ${msg}`);
+    _onMessage(topic, message) {
+        logger.log('info', `Received message on topic ${topic}: ${message}`);
     }
 
     publishMessage(messageJson) {
-        const message = JSON.stringify(messageJson);
-        const topic = 'devices/' + gatewayId + '/state/reported/delta';
+        for (const objectId in messageJson) {
+            if (messageJson.hasOwnProperty(objectId)) {
+                const object = messageJson[objectId];
+                const devName = object.devName || gatewayId;
+                const topic = `/devices/${devName}/controls/${object.name}`;
+                const value = object.value !== undefined ? object.value.toString() : 'undefined'; // Проверка на undefined
 
-        logger.log('info', 'Publish message to MQTT Broker');
-        this.client.publish(topic, message);
+                logger.log('info', `Publishing message to MQTT Broker: ${topic} ${value}`);
+                this.client.publish(topic, value);
+            }
+        }
     }
-
 }
 
-module.exports = {MqttClient};
+module.exports = { MqttClient };

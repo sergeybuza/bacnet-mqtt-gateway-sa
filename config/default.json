@@ -1,7 +1,7 @@
 {
     "mqtt": {
         "gatewayId": "YOUR INFINIMESH DEVICE ID",
-        "host": "mqtt.api.infinimesh.cloud",
+        "host": "YOUR MQTT HOST",
         "port": 8883,
         "authentication": {
             "certPath": "PATH TO YOUR SSL CERT",
