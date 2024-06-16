@@ -1,11 +1,11 @@
 {
     "mqtt": {
-        "gatewayId": "YOUR INFINIMESH DEVICE ID",
-        "host": "YOUR MQTT HOST",
+        "gatewayId": "test_dev",
+        "host": "192.168.88.188",
         "port": 8883,
         "authentication": {
-            "certPath": "PATH TO YOUR SSL CERT",
-            "keyPath": "PATH TO YOUR SSL KEY"
+            "certPath": "/home/sarbuzov/creds/certs/ecs-wirenboard.crt",
+            "keyPath": "/home/sarbuzov/creds/certs/ecs-wirenboard.key"
         }
     },
     "bacnet": {

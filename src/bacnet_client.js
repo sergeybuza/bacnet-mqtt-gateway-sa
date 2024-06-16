@@ -139,16 +139,20 @@ class BacnetClient extends EventEmitter {
                 const values = {};
                 // remove errors and map to result element
                 const successfulResults = result.filter(element => !element.error).map(element => element.value);
-                successfulResults.forEach(object => {
+//                successfulResults.forEach(object => {
+                for (let i = 0; i < successfulResults.length; i++) {
+                    const object = successfulResults[i];
                     const objectId = object.values[0].objectId.type + '_' + object.values[0].objectId.instance;
                     const presentValue = this._findValueById(object.values[0].values, bacnet.enum.PropertyIds.PROP_PRESENT_VALUE);
                     const objectName = this._findValueById(object.values[0].values, bacnet.enum.PropertyIds.PROP_OBJECT_NAME);
-
+                    const valuename = objects[i].valuename;
                     values[objectId] = {};
 	                  values[objectId].value = presentValue;
 	                  values[objectId].name = objectName;
-			values[objectId].devName = devName;
-                });
+		          values[objectId].devName = devName;
+                          values[objectId].valuename = valuename;
+//                          logger.log('info', `Object ID: ${objectId}, Value: ${presentValue}, Object Name: ${objectName}, Value Name: ${valuename}`); // Логируем для отладки
+                }
                 this.emit('values', device, values);
             }).catch(function (error) {
                 logger.log('error', `Error whilte fetching values: ${error}`);

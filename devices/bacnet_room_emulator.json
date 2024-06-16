@@ -1,22 +1,25 @@
-{
-    "devName": "b1f1r1TTTTTT",
+{ 
+    "devName": "b1f1r1_b1f1r1_00_n00_climate",
+    "testname":"testttt",
     "device": {
-        "deviceId": 3358910,
-        "deviceName": "b1f1r1TTTTTTTTTTTTT",
-        "address": "192.168.88.195"
+        "deviceId": 3752051,
+        "deviceName": "b1f1r1_b1f1r1_00_n00_climate",
+        "address": "192.168.106.255"
     },
     "polling": {
-        "schedule": "*/10 * * * * *"
+        "schedule": "*/1 * * * * *"
     },
     "objects": [{
         "objectId": {
             "type": 0,
             "instance": 1
-        }
+        },
+        "valuename": "temperature"
     }, {
         "objectId": {
             "type": 0,
             "instance": 2
-        }
+        },
+        "valuename": "humidity"
     }]
 }

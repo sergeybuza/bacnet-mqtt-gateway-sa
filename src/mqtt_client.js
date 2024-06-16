@@ -53,7 +53,8 @@ class MqttClient extends EventEmitter {
             if (messageJson.hasOwnProperty(objectId)) {
                 const object = messageJson[objectId];
                 const devName = object.devName || gatewayId;
-                const topic = `/devices/${devName}/controls/${object.name}`;
+                const valueName = object.valuename || object.name; // Используем valuename, если он есть
+                const topic = `/devices/${devName}/controls/${valueName}`;
                 const value = object.value !== undefined ? object.value.toString() : 'undefined'; // Проверка на undefined
 
                 logger.log('info', `Publishing message to MQTT Broker: ${topic} ${value}`);
